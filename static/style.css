@@ -1,0 +1,50 @@
+/* static/style.css */
+
+/* Estilo para a barra de rolagem da janela do chat */
+#chat-window::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-window::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor de fundo da trilha da barra de rolagem */
+}
+
+#chat-window::-webkit-scrollbar-thumb {
+    background: #a8a29e; /* Cor da barra de rolagem */
+    border-radius: 4px;
+}
+
+#chat-window::-webkit-scrollbar-thumb:hover {
+    background: #78716c; /* Cor da barra de rolagem ao passar o mouse */
+}
+
+/* Estilo para a animação do spinner de carregamento (agora verde) */
+.spinner {
+    animation: spin 1s linear infinite;
+    border-color: #16a34a; /* Cor do spinner (verde) */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilos para as bolhas de mensagem para evitar repetição de classes no HTML */
+.message-bubble {
+    padding: 0.75rem; /* 12px */
+    border-radius: 0.5rem; /* 8px */
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Mensagem do usuário agora com fundo verde */
+.user-message {
+    background-color: #16a34a; /* Verde-600 */
+    color: white;
+}
+
+.bot-message {
+    background-color: #e5e7eb; /* Cinza-200 */
+    color: #1f2937; /* Cinza-800 */
+}

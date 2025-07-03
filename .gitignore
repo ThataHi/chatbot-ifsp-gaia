@@ -1,0 +1,22 @@
+# Ambiente Virtual
+venv/
+.venv/
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de ambiente com senhas e segredos
+.env
+
+# Arquivos de dados (Opcional, mas recomendado se forem muito grandes)
+*.xml
+*.csv
+
+# Pasta do Llama.cpp (geralmente não se versiona a compilação)
+llama.cpp/
+
+# Pasta com modelos de IA
+models/

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot IFSP - TCC</title>
+    <!-- Tailwind CSS para estilização rápida de layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link para o nosso ficheiro de CSS externo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen items-center justify-center p-4">
+        <div class="flex flex-col w-full max-w-2xl h-[95vh] bg-white rounded-xl shadow-2xl">
+            <!-- Cabeçalho (agora verde e com o logo) -->
+            <header class="bg-green-700 text-white p-4 rounded-t-xl">
+                <div class="flex items-center justify-center space-x-4">
+                    <img src="https://cmp.ifsp.edu.br/images/logo/IFSP-Campinas-2022-vertical-verde-RGB.png" 
+                         alt="Logo IFSP Campinas" 
+                         class="h-12"
+                         onerror="this.style.display='none'">
+                    <h1 class="text-xl font-bold">Chatbot Acadêmico - IFSP Campinas</h1>
+                </div>
+            </header>
+
+            <!-- Janela do Chat -->
+            <main id="chat-window" class="flex-1 p-6 overflow-y-auto">
+                <!-- Mensagem inicial do bot -->
+                <div class="flex justify-start mb-4">
+                    <div class="message-bubble bot-message">
+                        <p>Olá! Eu sou o chatbot do IFSP. Pergunte-me sobre disciplinas, professores, salas e mais!</p>
+                    </div>
+                </div>
+            </main>
+            
+            <!-- Spinner de Carregamento -->
+            <div id="loading-spinner" class="hidden flex items-center justify-center p-4">
+                <div class="spinner rounded-full h-8 w-8 border-b-2"></div>
+                <p class="ml-3 text-gray-600">Pensando...</p>
+            </div>
+
+            <!-- Área de Input (agora com botões verdes) -->
+            <footer class="p-4 bg-gray-50 border-t border-gray-200 rounded-b-xl">
+                <form id="chat-form" class="flex items-center space-x-3">
+                    <input type="text" id="message-input" placeholder="Digite sua pergunta aqui..." autocomplete="off"
+                           class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <button type="submit"
+                            class="bg-green-700 text-white font-bold py-3 px-5 rounded-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">
+                        Enviar
+                    </button>
+                </form>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatWindow = document.getElementById('chat-window');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        // Função para adicionar mensagem na tela
+        function addMessage(message, sender) {
+            const messageRow = document.createElement('div');
+            messageRow.classList.add('flex', 'mb-4');
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.classList.add('message-bubble');
+            
+            if (sender === 'user') {
+                messageRow.classList.add('justify-end');
+                bubbleDiv.classList.add('user-message');
+            } else { // 'bot'
+                messageRow.classList.add('justify-start');
+                bubbleDiv.classList.add('bot-message');
+            }
+            
+            bubbleDiv.innerHTML = message;
+            messageRow.appendChild(bubbleDiv);
+            chatWindow.appendChild(messageRow);
+            
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Evento de envio do formulário
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            messageInput.value = '';
+            loadingSpinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na rede: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                addMessage(data.response, 'bot');
+
+            } catch (error) {
+                console.error('Erro ao enviar mensagem:', error);
+                addMessage('Desculpe, ocorreu um erro de comunicação com o servidor. Tente novamente.', 'bot');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

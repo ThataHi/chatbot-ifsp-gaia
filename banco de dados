@@ -1,0 +1,18 @@
+CREATE DATABASE ifsp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE ifsp;
+
+DROP TABLE IF EXISTS dados_ifsp;
+
+CREATE TABLE IF NOT EXISTS dados_ifsp (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_disciplina VARCHAR(50), 
+    disciplina VARCHAR(255),
+    curso VARCHAR(255),
+    semestre INT,                 
+    professor VARCHAR(255),
+    horario VARCHAR(255),
+    turno VARCHAR(20),             
+    sala VARCHAR(100)
+);
+
