@@ -1,5 +1,3 @@
-# tradutor_horarios.py
-
 import re
 
 def traduzir_horario_completo(expressao_horario):
