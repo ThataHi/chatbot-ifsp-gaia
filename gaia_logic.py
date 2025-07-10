@@ -1,5 +1,4 @@
-# gaia_logic.py (VERSÃO COM LINK DE AJUDA)
-
+# VERSÃO COM LINK DE AJUDA
 import requests
 import json
 import re
@@ -9,7 +8,6 @@ class GaiaLogic:
         self.ollama_url = ollama_url
         self.model_name = model_name
         
-        # <<< MUDANÇA AQUI >>>
         # Mensagem padrão com o link para ser reutilizada
         self.fallback_link_message = (
             "Para informações oficiais e completas, por favor, acesse o "
