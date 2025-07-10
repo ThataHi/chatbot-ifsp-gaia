@@ -18,7 +18,7 @@ def extrair_semestre(texto_disciplina):
     match = re.search(r'\.(\d+)\s*-', texto_disciplina)
     if match:
         return int(match.group(1))
-    return None # Retorna None se não encontrar o padrão
+    return None 
 
 def extrair_turno(texto_horario):
     """Extrai o turno principal do horário."""
@@ -42,7 +42,7 @@ def carregar_dados(xml_path):
         if not linhas: return []
         
         dados = []
-        for row in linhas[1:]: # Pula a linha do cabeçalho
+        for row in linhas[1:]:
             celulas = row.findall('ss:Cell', NAMESPACES)
             linha_dados = {}
             for cell in celulas:
