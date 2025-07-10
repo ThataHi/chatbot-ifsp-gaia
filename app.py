@@ -26,7 +26,6 @@ def formatar_resultados_sql(cursor):
     try:
         resultados = cursor.fetchall()
         
-        # <<< MUDANÇA AQUI >>>
         if not resultados:
             # Mensagem de "não encontrado" agora inclui o link.
             return (
